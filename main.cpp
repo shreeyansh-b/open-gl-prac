@@ -100,16 +100,26 @@ int main()
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    // transformation stuff
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-    trans = glm::rotate(trans, 20.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 
 
 
     int ourColorLocation = glGetUniformLocation(ourShader.ID, "ourColor");
     int tex1Location = glGetUniformLocation(ourShader.ID, "texture1");
-    int transformLocation = glGetUniformLocation(ourShader.ID, "transform");
+
+    // co-ordinate system
+    int modelLocation = glGetUniformLocation(ourShader.ID, "model");
+    int viewLocation = glGetUniformLocation(ourShader.ID, "view");
+    int projectionLocation = glGetUniformLocation(ourShader.ID, "projection");
+
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+    glm::mat4 view = glm::mat4(1.0f);
+    // note that we're translating the scene in the reverse direction of where we want to move
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+    glm::mat4 projection;
+    projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
     ourShader.Activate();
 
@@ -133,7 +143,11 @@ int main()
 
         glUniform4f(ourColorLocation, redValue, greenValue, blueValue, 1.0f);
 
-        glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(trans));
+
+
+        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
 
 
