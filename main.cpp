@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 
 #include "Shader.h"
 #include "stb_image.h"
@@ -98,10 +100,16 @@ int main()
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
+    // transformation stuff
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+    trans = glm::rotate(trans, 20.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+
 
 
     int ourColorLocation = glGetUniformLocation(ourShader.ID, "ourColor");
     int tex1Location = glGetUniformLocation(ourShader.ID, "texture1");
+    int transformLocation = glGetUniformLocation(ourShader.ID, "transform");
 
     ourShader.Activate();
 
@@ -124,6 +132,8 @@ int main()
         float blueValue = (cos(timeValue * 0.5f) / 2.55f) + 0.69f; // Slowed down
 
         glUniform4f(ourColorLocation, redValue, greenValue, blueValue, 1.0f);
+
+        glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(trans));
 
 
 
