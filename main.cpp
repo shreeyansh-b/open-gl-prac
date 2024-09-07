@@ -81,7 +81,6 @@ int main()
 
 
     // VAO, VBO, EBO etc.
-
     unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1,&VBO);
@@ -96,6 +95,8 @@ int main()
 
 
 
+    int ourColorLocation = glGetUniformLocation(ourShader.ID, "ourColor");
+
 
 
     while (!glfwWindowShouldClose(window))
@@ -106,6 +107,12 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        float timeValue = glfwGetTime();
+        float greenValue = (sin(timeValue * 0.5f) / 2.0f) + 0.5f;  // Slowed down
+        float redValue = (tan(timeValue * 0.1f) / 1.25f) + 0.33f;  // Much slower to avoid sharp changes
+        float blueValue = (cos(timeValue * 0.5f) / 2.55f) + 0.69f; // Slowed down
+
+        glUniform4f(ourColorLocation, redValue, greenValue, blueValue, 1.0f);
 
         ourShader.Activate();
         glBindVertexArray(VAO);
