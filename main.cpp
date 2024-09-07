@@ -22,15 +22,35 @@ const char* fragmentShaderSource = "#version 330 core\n"
 
 
 GLfloat vertices[] = {
-    -0.5f, -0.5f, 0.0f, // bottom left
-    -0.5f, 0.5f, 0.0f,  // top left
-    0.5f, -0.5f, 0.0f,  // bottom right
-    0.5f, 0.5f, 0.0f,   // top right
+    -0.5f,-0.75f, 0.0f,
+    -0.5f, -0.5f, 0.0f,
+    0.0f, -0.5f, 0.0f,
+    0.0f, -0.75f, 0.0f,
+    -0.5f, 0.0f, 0.0f,
+    0.0f, 0.0f, 0.0f,
+    0.5f, 0.0f, 0.0f,
+    0.5f, -0.5f, 0.0f,
+    -0.5f, 0.5f, 0.0f,
+    -0.5f, 0.75f, 0.0f,
+    0.0f, 0.75f, 0.0f,
+    0.0f, 0.5f, 0.0f,
+    0.75f, 0.75f, 0.0f,
+    0.75f, 0.5f, 0.0f
 };
 
 GLuint indices[] = {
-    0,1,2, // first triangle
-    1,2,3  // second triangle
+    0,1,3,
+    1,2,3,
+    1,4,2,
+    4,5,2,
+    5,6,7,
+    5,2,7,
+    4,8,5,
+    8,11,5,
+    8,9,11,
+    9,10,11,
+    10,12,13,
+    10,11,13
 };
 
 
@@ -114,8 +134,8 @@ int main()
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        // 36 is how many vertices to draw
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
 
