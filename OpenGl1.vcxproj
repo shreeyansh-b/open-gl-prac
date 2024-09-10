@@ -145,6 +145,8 @@
     <ClCompile Include="stb.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="light.fs" />
+    <None Include="light.vs" />
     <None Include="vert.glsl" />
     <None Include="frag.glsl" />
   </ItemGroup>

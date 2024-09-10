@@ -41,6 +41,12 @@
     <None Include="frag.glsl">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="light.fs">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="light.vs">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">

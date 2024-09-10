@@ -28,6 +28,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 GLfloat vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -126,7 +127,7 @@ int main()
 
 
     Shader ourShader("vert.glsl", "frag.glsl");
-
+    Shader lightShader("light.vs", "light.fs");
 
     
 
@@ -166,16 +167,30 @@ int main()
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
+    // light VAO,VBO etc.
+    unsigned int lightVAO;
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 
 
 
     int ourColorLocation = glGetUniformLocation(ourShader.ID, "ourColor");
     int tex1Location = glGetUniformLocation(ourShader.ID, "texture1");
+    int lightObjectColorLocation = glGetUniformLocation(ourShader.ID, "objectColor");
+    int lightLightColorLocation = glGetUniformLocation(ourShader.ID, "lightColor");
 
     // co-ordinate system
     int modelLocation = glGetUniformLocation(ourShader.ID, "model");
     int viewLocation = glGetUniformLocation(ourShader.ID, "view");
     int projectionLocation = glGetUniformLocation(ourShader.ID, "projection");
+
+    // lighting locations
+	int lightModelLocation = glGetUniformLocation(lightShader.ID, "model");
+	int lightViewLocation = glGetUniformLocation(lightShader.ID, "view");
+	int lightProjectionLocation = glGetUniformLocation(lightShader.ID, "projection");
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -207,13 +222,14 @@ int main()
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        float timeValue = glfwGetTime();
-        float greenValue = (sin(timeValue * 0.5f) / 2.0f) + 0.5f;  // Slowed down
-        float redValue = (tan(timeValue * 0.1f) / 1.25f) + 0.33f;  // Much slower to avoid sharp changes
-        float blueValue = (cos(timeValue * 0.5f) / 2.55f) + 0.69f; // Slowed down
 
-        glUniform4f(ourColorLocation, redValue, greenValue, blueValue, 1.0f);
+        glUniform4f(ourColorLocation, 0.5f, 0.5f, 0.5f, 1.0f);
 
+
+
+
+        ourShader.Activate();
+        glBindVertexArray(VAO);
 
 
         // note that we're translating the scene in the reverse direction of where we want to move
@@ -222,6 +238,8 @@ int main()
         //glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+        glUniform3f(lightObjectColorLocation, 1.0f, 0.5f, 0.31f);
+        glUniform3f(lightLightColorLocation, 1.0f, 1.0f, 1.0f);
 
 
 
@@ -231,16 +249,13 @@ int main()
 
 
 
-        ourShader.Activate();
-        glBindVertexArray(VAO);
 
         //glDrawArrays(GL_TRIANGLES, 0, 36);
-        for (unsigned int i = 0; i < 10; i++)
+        for (unsigned int i = 0; i < 1; i++)
         {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(timeValue * i * i), glm::vec3(1.0f, 0.3f, 0.5f));
             glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -248,6 +263,17 @@ int main()
 
 
         glBindVertexArray(0);
+
+        lightShader.Activate();
+		glUniformMatrix4fv(lightViewLocation, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(lightProjectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, lightPos);
+        model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
+		glUniformMatrix4fv(lightModelLocation, 1, GL_FALSE, glm::value_ptr(model));
+
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
         glfwSwapBuffers(window);
