@@ -182,6 +182,7 @@ int main()
     int lightObjectColorLocation = glGetUniformLocation(ourShader.ID, "objectColor");
     int lightLightColorLocation = glGetUniformLocation(ourShader.ID, "lightColor");
     int lightPosLocation = glGetUniformLocation(ourShader.ID, "lightPos");
+    int viewPosLocation = glGetUniformLocation(ourShader.ID, "viewPos");
 
     // co-ordinate system
     int modelLocation = glGetUniformLocation(ourShader.ID, "model");
@@ -204,7 +205,6 @@ int main()
 
     ourShader.Activate();
 
-    glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
 
 
     glUniform1i(tex1Location, 0);
@@ -243,7 +243,8 @@ int main()
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
         glUniform3f(lightObjectColorLocation, 1.0f, 0.5f, 0.31f);
         glUniform3f(lightLightColorLocation, 1.0f, 1.0f, 1.0f);
-
+        glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
+        glUniform3fv(viewPosLocation, 1, glm::value_ptr(camera.Position));
 
 
         // bind textures on corresponding texture units
