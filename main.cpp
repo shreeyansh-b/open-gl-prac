@@ -28,7 +28,6 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 GLfloat vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -233,6 +232,11 @@ int main()
 
         ourShader.Activate();
         glBindVertexArray(VAO);
+
+        float time = (float)glfwGetTime();
+
+        glm::vec3 lightPos(sin(time) * 4.0f, -cos(time), 2.0f);
+
 
 
         // note that we're translating the scene in the reverse direction of where we want to move
