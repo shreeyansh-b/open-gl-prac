@@ -31,3 +31,5 @@
 ![light_pos_dynamic](https://github.com/user-attachments/assets/138c7026-f080-4ff6-ac3c-0ba868e21cec)
 
 ![Screenshot 2024-09-13 014932](https://github.com/user-attachments/assets/c5dc797f-0ba3-43f1-bfa4-2b697fc5f5f0)
+
+![Screenshot 2024-09-13 023245](https://github.com/user-attachments/assets/8b110176-8aa8-4ab3-899c-fdd986ec9a22)
