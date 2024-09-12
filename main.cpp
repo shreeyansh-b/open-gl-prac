@@ -178,10 +178,20 @@ int main()
 
     int ourColorLocation = glGetUniformLocation(ourShader.ID, "ourColor");
     int tex1Location = glGetUniformLocation(ourShader.ID, "texture1");
-    int lightObjectColorLocation = glGetUniformLocation(ourShader.ID, "objectColor");
-    int lightLightColorLocation = glGetUniformLocation(ourShader.ID, "lightColor");
-    int lightPosLocation = glGetUniformLocation(ourShader.ID, "lightPos");
     int viewPosLocation = glGetUniformLocation(ourShader.ID, "viewPos");
+
+    // material location
+    int ambientLocation = glGetUniformLocation(ourShader.ID, "material.ambient");
+    int diffuseLocation = glGetUniformLocation(ourShader.ID, "material.diffuse");
+    int specularLocation = glGetUniformLocation(ourShader.ID, "material.specular");
+    int shininessLocation = glGetUniformLocation(ourShader.ID, "material.shininess");
+
+    // light props location
+    int lightPosLocation = glGetUniformLocation(ourShader.ID, "light.position");
+    int ambientLightLocation = glGetUniformLocation(ourShader.ID, "light.ambient");
+    int diffuseLightLocation = glGetUniformLocation(ourShader.ID, "light.diffuse");
+    int specularLightLocation = glGetUniformLocation(ourShader.ID, "light.specular");
+
 
     // co-ordinate system
     int modelLocation = glGetUniformLocation(ourShader.ID, "model");
@@ -235,7 +245,7 @@ int main()
 
         float time = (float)glfwGetTime();
 
-        glm::vec3 lightPos(sin(time) * 4.0f, -cos(time), 2.0f);
+        glm::vec3 lightPos(2.0f, 1.0f, 2.0f);
 
 
 
@@ -245,11 +255,19 @@ int main()
         //glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
-        glUniform3f(lightObjectColorLocation, 1.0f, 0.5f, 0.31f);
-        glUniform3f(lightLightColorLocation, 1.0f, 1.0f, 1.0f);
-        glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
         glUniform3fv(viewPosLocation, 1, glm::value_ptr(camera.Position));
 
+        // material props
+        glUniform3f(ambientLocation, 0.24725f, 0.1995f, 0.0745f);
+        glUniform3f(diffuseLocation, 0.75164f, 0.60648f, 0.22648f);
+        glUniform3f(specularLocation, 0.628281f, 0.555802f, 0.366065f);
+        glUniform1f(shininessLocation, 8.0);
+
+        // light props
+        glUniform3f(ambientLightLocation, 0.2f, 0.2f, 0.2f);
+        glUniform3f(diffuseLightLocation, 0.5f, 0.5f, 0.5f);
+        glUniform3f(specularLightLocation, 1.0f, 1.0f, 1.0f);
+        glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
 
         // bind textures on corresponding texture units
         glActiveTexture(GL_TEXTURE0);
