@@ -29,3 +29,5 @@
 ![Screenshot 2024-09-12 025109](https://github.com/user-attachments/assets/7839ba7d-8f5b-48b0-953e-8b665f5d81eb)
 
 ![light_pos_dynamic](https://github.com/user-attachments/assets/138c7026-f080-4ff6-ac3c-0ba868e21cec)
+
+![Screenshot 2024-09-13 014932](https://github.com/user-attachments/assets/c5dc797f-0ba3-43f1-bfa4-2b697fc5f5f0)
