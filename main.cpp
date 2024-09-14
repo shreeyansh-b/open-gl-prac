@@ -207,6 +207,7 @@ int main()
     int ambientLightLocation = glGetUniformLocation(ourShader.ID, "light.ambient");
     int diffuseLightLocation = glGetUniformLocation(ourShader.ID, "light.diffuse");
     int specularLightLocation = glGetUniformLocation(ourShader.ID, "light.specular");
+    int directionLightLocation = glGetUniformLocation(ourShader.ID, "light.direction");
 
 
     // co-ordinate system
@@ -284,7 +285,7 @@ int main()
         glUniform3f(diffuseLightLocation, 0.7f, 0.7f, 0.7f);
         glUniform3f(specularLightLocation, 1.0f, 1.0f, 1.0f);
         glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
-
+        glUniform3f(directionLightLocation, -0.2f, -1.0f, -0.3f);
         // bind textures on corresponding texture units
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
@@ -294,11 +295,12 @@ int main()
 
 
         //glDrawArrays(GL_TRIANGLES, 0, 36);
-        for (unsigned int i = 0; i < 1; i++)
+        for (unsigned int i = 0; i < 10; i++)
         {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
