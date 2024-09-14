@@ -209,6 +209,12 @@ int main()
     int specularLightLocation = glGetUniformLocation(ourShader.ID, "light.specular");
     int directionLightLocation = glGetUniformLocation(ourShader.ID, "light.direction");
 
+    // light constants
+
+    int lightConstantLocation = glGetUniformLocation(ourShader.ID, "light.constant");
+    int lightLinearLocation = glGetUniformLocation(ourShader.ID, "light.linear");
+    int lightQuadraticLocation = glGetUniformLocation(ourShader.ID, "light.quadratic");
+
 
     // co-ordinate system
     int modelLocation = glGetUniformLocation(ourShader.ID, "model");
@@ -286,6 +292,10 @@ int main()
         glUniform3f(specularLightLocation, 1.0f, 1.0f, 1.0f);
         glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
         glUniform3f(directionLightLocation, -0.2f, -1.0f, -0.3f);
+        glUniform1f(lightConstantLocation, 1.0f);
+        glUniform1f(lightLinearLocation, 0.09f);
+        glUniform1f(lightQuadraticLocation, 0.032f);
+
         // bind textures on corresponding texture units
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
