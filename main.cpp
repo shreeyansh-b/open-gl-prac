@@ -208,6 +208,7 @@ int main()
     int diffuseLightLocation = glGetUniformLocation(ourShader.ID, "light.diffuse");
     int specularLightLocation = glGetUniformLocation(ourShader.ID, "light.specular");
     int directionLightLocation = glGetUniformLocation(ourShader.ID, "light.direction");
+    int cutOffLightLocation = glGetUniformLocation(ourShader.ID, "light.cutOff");
 
     // light constants
 
@@ -290,8 +291,9 @@ int main()
         glUniform3f(ambientLightLocation, 0.2f, 0.2f, 0.2f);
         glUniform3f(diffuseLightLocation, 0.7f, 0.7f, 0.7f);
         glUniform3f(specularLightLocation, 1.0f, 1.0f, 1.0f);
-        glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
-        glUniform3f(directionLightLocation, -0.2f, -1.0f, -0.3f);
+        glUniform3fv(lightPosLocation, 1, glm::value_ptr(camera.Position));
+        glUniform3fv(directionLightLocation, 1, glm::value_ptr(camera.Front));
+        glUniform1f(cutOffLightLocation, glm::cos(glm::radians(12.5f)));
         glUniform1f(lightConstantLocation, 1.0f);
         glUniform1f(lightLinearLocation, 0.09f);
         glUniform1f(lightQuadraticLocation, 0.032f);
