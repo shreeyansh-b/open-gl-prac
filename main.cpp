@@ -92,6 +92,14 @@ glm::vec3 cubePositions[] = {
     glm::vec3(-1.3f,  1.0f, -1.5f)
 };
 
+// positions of the point lights
+glm::vec3 pointLightPositions[] = {
+    glm::vec3(0.7f,  0.2f,  2.0f),
+    glm::vec3(2.3f, -3.3f, -4.0f),
+    glm::vec3(-4.0f,  2.0f, -12.0f),
+    glm::vec3(0.0f,  0.0f, -3.0f)
+};
+
 int main()
 {
 
@@ -202,20 +210,7 @@ int main()
     int specularLocation = glGetUniformLocation(ourShader.ID, "material.specular");
     int shininessLocation = glGetUniformLocation(ourShader.ID, "material.shininess");
 
-    // light props location
-    int lightPosLocation = glGetUniformLocation(ourShader.ID, "light.position");
-    int ambientLightLocation = glGetUniformLocation(ourShader.ID, "light.ambient");
-    int diffuseLightLocation = glGetUniformLocation(ourShader.ID, "light.diffuse");
-    int specularLightLocation = glGetUniformLocation(ourShader.ID, "light.specular");
-    int directionLightLocation = glGetUniformLocation(ourShader.ID, "light.direction");
-    int cutOffLightLocation = glGetUniformLocation(ourShader.ID, "light.cutOff");
-    int outerCutOffLightLocation = glGetUniformLocation(ourShader.ID, "light.outerCutOff");
 
-    // light constants
-
-    int lightConstantLocation = glGetUniformLocation(ourShader.ID, "light.constant");
-    int lightLinearLocation = glGetUniformLocation(ourShader.ID, "light.linear");
-    int lightQuadraticLocation = glGetUniformLocation(ourShader.ID, "light.quadratic");
 
 
     // co-ordinate system
@@ -289,16 +284,43 @@ int main()
         glUniform1f(shininessLocation, 51.2f);
 
         // light props
-        glUniform3f(ambientLightLocation, 0.2f, 0.2f, 0.2f);
-        glUniform3f(diffuseLightLocation, 0.7f, 0.7f, 0.7f);
-        glUniform3f(specularLightLocation, 1.0f, 1.0f, 1.0f);
-        glUniform3fv(lightPosLocation, 1, glm::value_ptr(camera.Position));
-        glUniform3fv(directionLightLocation, 1, glm::value_ptr(camera.Front));
-        glUniform1f(cutOffLightLocation, glm::cos(glm::radians(12.5f)));
-        glUniform1f(outerCutOffLightLocation, glm::cos(glm::radians(17.5f)));
-        glUniform1f(lightConstantLocation, 1.0f);
-        glUniform1f(lightLinearLocation, 0.09f);
-        glUniform1f(lightQuadraticLocation, 0.032f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "dirLight.direction"), -0.2f, -1.0f, -0.3f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "dirLight.ambient"), 0.05f, 0.05f, 0.05f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "dirLight.diffuse"), 0.4f, 0.4f, 0.4f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "dirLight.specular"), 0.5f, 0.5f, 0.5f);
+
+		glUniform3fv(glGetUniformLocation(ourShader.ID, "pointLights[0].position"), 1, glm::value_ptr(pointLightPositions[0]));
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[0].ambient"), 0.05f, 0.05f, 0.05f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[0].diffuse"), 0.8f, 0.8f, 0.8f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[0].specular"), 1.0f, 1.0f, 1.0f);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[0].constant"), 1.0f);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[0].linear"), 0.09);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[0].quadratic"), 0.032);
+
+		glUniform3fv(glGetUniformLocation(ourShader.ID, "pointLights[1].position"), 1, glm::value_ptr(pointLightPositions[1]));
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[1].ambient"), 0.05f, 0.05f, 0.05f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[1].diffuse"), 0.8f, 0.8f, 0.8f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[1].specular"), 1.0f, 1.0f, 1.0f);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[1].constant"), 1.0f);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[1].linear"), 0.09);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[1].quadratic"), 0.032);
+
+		glUniform3fv(glGetUniformLocation(ourShader.ID, "pointLights[2].position"), 1, glm::value_ptr(pointLightPositions[2]));
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[2].ambient"), 0.05f, 0.05f, 0.05f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[2].diffuse"), 0.8f, 0.8f, 0.8f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[2].specular"), 1.0f, 1.0f, 1.0f);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[2].constant"), 1.0f);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[2].linear"), 0.09);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[2].quadratic"), 0.032);
+
+		glUniform3fv(glGetUniformLocation(ourShader.ID, "pointLights[3].position"), 1, glm::value_ptr(pointLightPositions[3]));
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[3].ambient"), 0.05f, 0.05f, 0.05f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[3].diffuse"), 0.8f, 0.8f, 0.8f);
+		glUniform3f(glGetUniformLocation(ourShader.ID, "pointLights[3].specular"), 1.0f, 1.0f, 1.0f);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[3].constant"), 1.0f);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[3].linear"), 0.09);
+		glUniform1f(glGetUniformLocation(ourShader.ID, "pointLights[3].quadratic"), 0.032);
+
 
         // bind textures on corresponding texture units
         glActiveTexture(GL_TEXTURE0);
